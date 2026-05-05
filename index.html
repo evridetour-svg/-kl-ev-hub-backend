@@ -1,25 +1,40 @@
-<script>
-const API_BASE = "https://kl-ev-hub-backend.onrender.com";
+<!DOCTYPE html>
+<html>
+<head>
+  <title>KL EV HUB</title>
+</head>
 
-async function book(tour, price){
-  try {
-    const res = await fetch(API_BASE + "/create-order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        tour,
-        price
-      })
-    });
+<body style="font-family: Arial; text-align:center; background:#111; color:white;">
 
-    const data = await res.json();
+  <h1>🚀 KL EV HUB</h1>
+  <p>EV Motorbike Tour Booking System</p>
 
-    alert("Booking Success: " + data.id);
+  <button onclick="book('City Tour',80)">City Tour - RM80</button><br><br>
+  <button onclick="book('Night Tour',120)">Night Tour - RM120</button><br><br>
+  <button onclick="book('VIP Tour',250)">VIP Tour - RM250</button>
 
-  } catch (err) {
-    alert("ERROR: " + err.message);
-  }
-}
-</script>
+  <p id="result"></p>
+
+  <script>
+    const API_BASE = "https://kl-ev-hub-backend-2.onrender.com";
+
+    async function book(tour, price){
+      try {
+        const res = await fetch(API_BASE + "/create-order", {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({ tour, price })
+        });
+
+        const data = await res.json();
+
+        alert("Booking Success: " + data.id);
+
+      } catch (err) {
+        alert("ERROR: " + err.message);
+      }
+    }
+  </script>
+
+</body>
+</html>
