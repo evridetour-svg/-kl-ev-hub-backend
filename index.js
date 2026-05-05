@@ -3,13 +3,14 @@ const cors = require("cors");
 
 const app = express();
 
+// Middleware
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
-// TEMP DATABASE (INI SIMPAN BOOKING)
+// MEMORY DATABASE (temporary simpan booking)
 let bookings = [];
 
-// HOME TEST
+// TEST ROUTE
 app.get("/", (req, res) => {
   res.send("🚀 KL EV HUB IS LIVE");
 });
@@ -18,24 +19,31 @@ app.get("/", (req, res) => {
 app.post("/create-order", (req, res) => {
   const { tour, price } = req.body;
 
+  // create booking object
   const booking = {
     id: "EV" + Date.now(),
-    tour,
-    price,
-    time: new Date()
+    tour: tour,
+    price: price,
+    time: new Date().toISOString()
   };
 
+  // simpan dalam array
   bookings.push(booking);
 
+  // return response
   res.json(booking);
 });
 
-// GET ALL BOOKINGS (ADMIN VIEW)
+// GET ALL BOOKINGS (ADMIN CHECK)
 app.get("/bookings", (req, res) => {
-  res.json(bookings);
+  res.json({
+    total: bookings.length,
+    data: bookings
+  });
 });
 
+// START SERVER
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log("Server running");
+  console.log("🚀 Server running on port " + PORT);
 });
