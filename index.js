@@ -6,30 +6,46 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// TEST
+// TEST ROUTE
 app.get("/", (req, res) => {
   res.send("KL EV HUB LIVE");
 });
 
-// DATA
+// MEMORY SAFE
 let bookings = [];
 
-// CREATE
+// SAFE CREATE ORDER (NO CRASH VERSION)
 app.post("/create-order", (req, res) => {
-  const booking = {
-    id: "EV" + Date.now(),
-    tour: req.body?.tour || "City Tour",
-    price: req.body?.price || 0
-  };
+  try {
+    const tour = req.body && req.body.tour ? req.body.tour : "City Tour";
+    const price = req.body && req.body.price ? req.body.price : 0;
 
-  bookings.push(booking);
+    const booking = {
+      id: "EV" + Date.now(),
+      tour: tour,
+      price: price
+    };
 
-  res.json(booking); // IMPORTANT
+    bookings.push(booking);
+
+    // FORCE JSON STRING (ANTI ERROR)
+    res.setHeader("Content-Type", "application/json");
+    return res.send(JSON.stringify(booking));
+
+  } catch (e) {
+    return res.send(JSON.stringify({
+      id: "ERROR",
+      message: e.message
+    }));
+  }
 });
 
-// LIST
+// BOOKINGS
 app.get("/bookings", (req, res) => {
   res.json(bookings);
 });
 
-app.listen(process.env.PORT || 3000);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("Server running");
+});
