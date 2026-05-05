@@ -7,7 +7,6 @@
 <body style="font-family:Arial;text-align:center;background:#111;color:white;">
 
   <h1>🚀 KL EV HUB</h1>
-  <p>EV Motorbike Tour Booking System</p>
 
   <button onclick="book('City Tour',80)">City Tour - RM80</button><br><br>
   <button onclick="book('Night Tour',120)">Night Tour - RM120</button><br><br>
@@ -17,27 +16,21 @@
     const API_BASE = "https://kl-ev-hub-backend-2.onrender.com";
 
     async function book(tour, price){
-  try {
-    const res = await fetch(API_BASE + "/create-order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ tour, price })
-    });
+      try {
+        const res = await fetch(API_BASE + "/create-order", {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({ tour, price })
+        });
 
-    const text = await res.text();
-    console.log("RAW RESPONSE:", text);
+        const data = await res.json();
 
-    const data = JSON.parse(text);
+        alert("Booking Success: " + data.id);
 
-    alert("Booking Success: " + data.id);
-
-  } catch (err) {
-    console.log(err);
-    alert("ERROR: " + err.message);
-  }
-}
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+    }
   </script>
 
 </body>
