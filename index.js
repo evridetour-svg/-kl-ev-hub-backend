@@ -19,13 +19,14 @@ app.get("/", (req, res) => {
 app.post("/create-order", (req, res) => {
   const { tour, price } = req.body;
 
-  // create booking object
   const booking = {
     id: "EV" + Date.now(),
     tour: tour,
-    price: price,
-    time: new Date().toISOString()
+    price: price
   };
+
+  res.json(booking); // 🔥 PENTING: mesti JSON
+});
 
   // simpan dalam array
   bookings.push(booking);
