@@ -1,26 +1,28 @@
-const express = require("express")
-const cors = require("cors")
+const express = require("express");
+const cors = require("cors");
 
-const app = express()
+const app = express();
 
-app.use(cors({
-  origin: "*"
-}));
+app.use(cors({ origin: "*" }));
+app.use(express.json());
 
-app.use(express.json())
+// test server
+app.get("/", (req, res) => {
+  res.send("🚀 KL EV HUB IS LIVE");
+});
 
-let orders = {}
+// create booking API
+app.post("/create-order", (req, res) => {
+  const { tour, price } = req.body;
 
-app.get("/", (req,res)=>{
-  res.send("🚀 KL EV HUB IS LIVE")
-})
+  res.json({
+    orderId: "EV" + Date.now(),
+    tour,
+    price
+  });
+});
 
-app.post("/create-order",(req,res)=>{
-  const id = "EV"+Date.now()
-  orders[id] = {status:"PENDING"}
-  res.json({orderId:id})
-})
-
-app.listen(3000,()=>{
-  console.log("Server running")
-})
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("Server running");
+});
