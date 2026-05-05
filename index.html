@@ -1,3 +1,4 @@
+<script>
 const API_BASE = "https://kl-ev-hub-backend.onrender.com";
 
 async function book(tour, price){
@@ -8,19 +9,17 @@ async function book(tour, price){
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        tour: tour,
-        price: price
+        tour,
+        price
       })
     });
 
     const data = await res.json();
 
-    console.log(data); // untuk debug
-
     alert("Booking Success: " + data.id);
 
   } catch (err) {
-    console.log(err);
     alert("ERROR: " + err.message);
   }
 }
+</script>
