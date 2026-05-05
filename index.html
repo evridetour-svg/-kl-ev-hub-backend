@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>KL EV HUB</title>
+</head>
+<body style="font-family: Arial; text-align:center; background:black; color:white;">
+
+  <h1>🚀 KL EV HUB</h1>
+  <p>Electric Bike Tour Kuala Lumpur</p>
+
+  <h2>Select Tour</h2>
+
+  <button onclick="book('City Tour',80)">City Tour RM80</button><br><br>
+  <button onclick="book('Night Tour',120)">Night Tour RM120</button><br><br>
+  <button onclick="book('VIP Tour',250)">VIP Tour RM250</button>
+
+  <p id="result"></p>
+
+  <script>
+    const API_BASE = "https://kl-ev-hub-backend-1.onrender.com/";
+
+    async function book(tour, price){
+      const res = await fetch(API_BASE + "/create-order", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+          tour: tour,
+          price: price,
+          country: "MY"
+        })
+      });
+
+      const data = await res.json();
+      document.getElementById("result").innerText =
+        "Booking Success: " + data.orderId;
+    }
+  </script>
+
+</body>
+</html>
