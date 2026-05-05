@@ -3,40 +3,39 @@ const cors = require("cors");
 
 const app = express();
 
-// middleware wajib
+// IMPORTANT middleware
 app.use(cors());
 app.use(express.json());
 
-// home test
+// TEST LIVE
 app.get("/", (req, res) => {
-  res.send("🚀 KL EV HUB LIVE");
+  res.send("KL EV HUB LIVE");
 });
 
-// simpan data booking (temporary)
+// MEMORY DATABASE
 let bookings = [];
 
-// create booking
+// CREATE BOOKING (FIXED 100%)
 app.post("/create-order", (req, res) => {
-  const tour = req.body?.tour || "Unknown";
-  const price = req.body?.price || 0;
+  console.log("BODY:", req.body);
 
   const booking = {
     id: "EV" + Date.now(),
-    tour,
-    price
+    tour: req.body?.tour || "City Tour",
+    price: req.body?.price || 0
   };
 
   bookings.push(booking);
 
-  res.json(booking);
+  // 🔥 IMPORTANT: ALWAYS RETURN JSON
+  return res.status(200).json(booking);
 });
 
-// lihat semua booking
+// GET BOOKINGS
 app.get("/bookings", (req, res) => {
-  res.json(bookings);
+  return res.json(bookings);
 });
 
-// start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Server running");
