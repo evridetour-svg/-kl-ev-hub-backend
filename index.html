@@ -4,7 +4,7 @@
   <title>KL EV HUB</title>
 </head>
 
-<body style="font-family: Arial; text-align:center; background:#111; color:white;">
+<body style="font-family:Arial;text-align:center;background:#111;color:white;">
 
   <h1>🚀 KL EV HUB</h1>
   <p>EV Motorbike Tour Booking System</p>
@@ -13,17 +13,20 @@
   <button onclick="book('Night Tour',120)">Night Tour - RM120</button><br><br>
   <button onclick="book('VIP Tour',250)">VIP Tour - RM250</button>
 
-  <p id="result"></p>
-
   <script>
-    const API_BASE = "https://kl-ev-hub-backend-2.onrender.com";
+    const API_BASE = "https://kl-ev-hub-backend.onrender.com";
 
     async function book(tour, price){
       try {
         const res = await fetch(API_BASE + "/create-order", {
           method: "POST",
-          headers: {"Content-Type":"application/json"},
-          body: JSON.stringify({ tour, price })
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            tour,
+            price
+          })
         });
 
         const data = await res.json();
