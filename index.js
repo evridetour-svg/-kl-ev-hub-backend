@@ -6,12 +6,12 @@ const app = express();
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
-// TEST SERVER
+// TEST HOME
 app.get("/", (req, res) => {
   res.send("🚀 KL EV HUB IS LIVE");
 });
 
-// BOOKING API (INI YANG ANDA TAK ADA TADI)
+// BOOKING API (INI WAJIB ADA)
 app.post("/create-order", (req, res) => {
   const { tour, price } = req.body;
 
