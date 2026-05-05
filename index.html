@@ -16,10 +16,11 @@
 
   <p id="result"></p>
 
-  <script>
-    const API_BASE = "https://kl-ev-hub-backend-1.onrender.com/";
+ <script>
+  const API_BASE = "https://kl-ev-hub.onrender.com";
 
-    async function book(tour, price){
+  async function book(tour, price){
+    try {
       const res = await fetch(API_BASE + "/create-order", {
         method: "POST",
         headers: {"Content-Type":"application/json"},
@@ -31,10 +32,12 @@
       });
 
       const data = await res.json();
-      document.getElementById("result").innerText =
-        "Booking Success: " + data.orderId;
-    }
-  </script>
+      alert("Booking Success: " + data.orderId);
 
+    } catch (err) {
+      alert("ERROR: " + err.message);
+    }
+  }
+</script>
 </body>
 </html>
