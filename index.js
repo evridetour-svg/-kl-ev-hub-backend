@@ -3,51 +3,41 @@ const cors = require("cors");
 
 const app = express();
 
-// middleware
-app.use(cors({ origin: "*" }));
+// middleware wajib
+app.use(cors());
 app.use(express.json());
 
-// health check
+// home test
 app.get("/", (req, res) => {
-  res.send("🚀 KL EV HUB IS LIVE");
+  res.send("🚀 KL EV HUB LIVE");
 });
 
-// memory database
+// simpan data booking (temporary)
 let bookings = [];
 
 // create booking
 app.post("/create-order", (req, res) => {
-  try {
-    const { tour, price } = req.body;
+  const tour = req.body?.tour || "Unknown";
+  const price = req.body?.price || 0;
 
-    const booking = {
-      id: "EV" + Date.now(),
-      tour: tour,
-      price: price,
-      time: new Date().toISOString()
-    };
+  const booking = {
+    id: "EV" + Date.now(),
+    tour,
+    price
+  };
 
-    bookings.push(booking);
+  bookings.push(booking);
 
-    return res.json(booking);
-
-  } catch (err) {
-    return res.status(500).json({
-      error: err.message
-    });
-  }
+  res.json(booking);
 });
 
-// get bookings (admin)
+// lihat semua booking
 app.get("/bookings", (req, res) => {
-  return res.json({
-    total: bookings.length,
-    data: bookings
-  });
+  res.json(bookings);
 });
 
 // start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log("Server running on port " + PORT);
+  console.log("Server running");
 });
